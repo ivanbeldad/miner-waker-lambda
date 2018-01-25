@@ -7,7 +7,7 @@
     "start": "lambda-local -l src/main.js -h handler -e src/event-data.js",
     "test": "jest",
     "build": "gulp build",
-    "deploy": "gulp build && aws lambda update-function-code --function-name miner-waker-lambda --zip-file fileb://dist/miner-waker-lambda.zip"
+    "deploy": "npm run build && aws lambda update-function-code --function-name miner-waker-lambda --zip-file fileb://dist/miner-waker-lambda.zip"
   },
   "repository": {
     "type": "git",
@@ -25,9 +25,15 @@
     "url": "https://github.com/ivandelabeldad/miner-waker-lambda/issues"
   },
   "homepage": "https://github.com/ivandelabeldad/miner-waker-lambda#readme",
-  "dependencies": {},
+  "dependencies": {
+    "js-yaml": "^3.10.0",
+    "request": "^2.83.0"
+  },
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-gzip": "^1.4.2",
+    "gulp-install": "^1.1.0",
     "gulp-zip": "^4.1.0",
     "lambda-local": "^1.4.5"
   }
