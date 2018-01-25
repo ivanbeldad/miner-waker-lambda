@@ -4,6 +4,7 @@
   "description": "Restart automatically miners using ethos API and TpLink switchers using AWS Lambda",
   "main": "src/main.js",
   "scripts": {
+    "start": "lambda-local -l src/main.js -h handler -e src/event-data.js",
     "test": "jest",
     "build": "gulp build",
     "deploy": "gulp build && aws lambda update-function-code --function-name miner-waker-lambda --zip-file fileb://dist/miner-waker-lambda.zip"
