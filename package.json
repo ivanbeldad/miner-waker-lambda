@@ -1,0 +1,33 @@
+{
+  "name": "miner-waker-lambda",
+  "version": "1.0.0",
+  "description": "Restart automatically miners using ethos API and TpLink switchers using AWS Lambda",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "jest",
+    "build": "gulp build",
+    "deploy": "gulp build && aws lambda update-function-code --function-name miner-waker-lambda --zip-file fileb://dist/miner-waker-lambda.zip"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivandelabeldad/miner-waker-lambda.git"
+  },
+  "keywords": [
+    "ethos",
+    "tplink",
+    "aws",
+    "lambda"
+  ],
+  "author": "Ivan de la Beldad Fernandez <ivandelabeldad@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ivandelabeldad/miner-waker-lambda/issues"
+  },
+  "homepage": "https://github.com/ivandelabeldad/miner-waker-lambda#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-zip": "^4.1.0",
+    "lambda-local": "^1.4.5"
+  }
+}
