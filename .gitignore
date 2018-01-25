@@ -1,0 +1,6 @@
+.vscode
+config.yml
+tplink_token.txt
+legacy
+dist
+node_modules

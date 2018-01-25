@@ -1,0 +1,18 @@
+miners:
+  - rig_name: ''
+    tplink_name: ''
+
+  - rig_name: ''
+    tplink_name: ''
+
+ethos:
+  api_url: ''
+
+tplink:
+  url: ''
+  cloud_user_name: ''
+  cloud_password: ''
+  terminal_UUID: ''
+
+reset_interval_seconds:
+token_file: ''
