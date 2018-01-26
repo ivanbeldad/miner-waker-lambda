@@ -14,8 +14,19 @@ This project ONLY works with TPLink HS100 devices and ethos.
 
 ## Deploy
 
+##### Amazon Setup
+
 First of all you will need an Amazon Web Services account and the aws cli installed and configured.
 More info: https://aws.amazon.com/cli/
+
+* Create a lambda function using either the https://console.aws.amazon.com/lambda or `aws lambda create-function`
+* Select Nodejs6.10 as runtime
+* Change handler to src/main.handler
+* Set timeout to at least 10 seconds
+
+> Recommended: Add a schedule trigger with CloudWatch Events
+
+##### Local
 
 Clone this repository
 ```
@@ -23,10 +34,6 @@ git clone https://github.com/ivandelabeldad/miner-waker-lambda.git
 ```
 
 Copy config.yml.sample to config.yml and fill the gaps with your own configuration
-
-Create a lambda function using either the https://console.aws.amazon.com/lambda or `aws lambda create-function`
-
-> IMPORTANT: Increase lambda timeout to at least 10 seconds
 
 Then run the following inside the project folder
 
