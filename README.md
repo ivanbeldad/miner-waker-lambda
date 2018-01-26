@@ -21,11 +21,10 @@ Copy config.yml.sample to config.yml and fill the gaps with your own configurati
 
 Create a lambda function using either the https://console.aws.amazon.com/lambda or `aws lambda create-function`
 
-<aside class="warning">
-IMPORTANT: Increase lambda timeout to at least 10 seconds
-</aside>
+> IMPORTANT: Increase lambda timeout to at least 10 seconds
 
 Then run the following inside the project folder
+
 ```
 npm install
 npm run deploy -- lambda-function
