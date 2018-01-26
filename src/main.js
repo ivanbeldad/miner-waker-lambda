@@ -20,14 +20,14 @@ exports.handler = (event, context, callback) => {
       const promises = []
 
       minerCollection.getStoppedMiners().forEach(miner => {
-        console.log(`${miner.tplinkName} is stopped`)
+        console.info(`${miner.tplinkName} is stopped`)
         promises.push(tplink.reset(miner))
       })
 
       return Promise.all(promises)
-    })
-    .then(() => {
-      callback(null, `Everything finished successfully.`)
+        .then(() => {
+          callback(null, `Everything finished successfully.`)
+        })
     })
     .catch(err => {
       console.error(err)

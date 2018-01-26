@@ -20,6 +20,7 @@ class Tplink {
     this.cloudPassword = obj.cloudPassword
     this.terminalUUID = obj.terminalUUID
     this.tokenLocation = obj.tokenLocation
+    this.token = null
   }
 
   /**
@@ -59,6 +60,8 @@ class Tplink {
 
 }
 
+const protocol = 'https'
+
 /**
  *
  * @param {tplink} tplink
@@ -67,6 +70,7 @@ class Tplink {
  */
 const isValidToken = (tplink, token) => {
   const endpoint = url.format({
+    protocol,
     host: tplink.url,
     query: { token: token.toString() }
   })
@@ -86,51 +90,25 @@ const isValidToken = (tplink, token) => {
 /**
  *
  * @param {tplink} tplink
- * @param {string} token
- * @return {Promise}
- */
-const saveToken = (tplink, token) => {
-  return new Promise((resolve, reject) => {
-    fs.writeFile(tplink.tokenLocation, token, (err) => {
-      if (err) return reject(err)
-      return resolve(token)
-    })
-  })
-}
-
-/**
- *
- * @param {tplink} tplink
- * @return {Promise}
- */
-const readToken = (tplink) => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(tplink.tokenLocation, (err, data) => {
-      if (err) return reject(err)
-      return resolve(data)
-    })
-  })
-}
-
-/**
- *
- * @param {tplink} tplink
  * @return {Promise}
  */
 const generateToken = (tplink) => {
   let body = {
     method: 'login',
     params: {
-      'appType': 'Kasa_Android',
-      'cloudUserName': tplink.cloudUserName,
-      'cloudPassword': tplink.cloudPassword,
-      'terminalUUID': tplink.terminalUUID
+      appType: 'Kasa_Android',
+      cloudUserName: tplink.cloudUserName,
+      cloudPassword: tplink.cloudPassword,
+      terminalUUID: tplink.terminalUUID
     }
   }
   body = JSON.stringify(body)
   const endpoint = url.format({
+    protocol,
     host: tplink.url
   })
+
+  console.info('Generating new token...')
 
   return new Promise((resolve, reject) => {
     const response = request.post(endpoint, {
@@ -138,25 +116,14 @@ const generateToken = (tplink) => {
     })
       .then(value => {
         value = JSON.parse(value)
+        console.info(`New token generated: ${value.result.token}`)
         return resolve(value.result.token)
       })
-      .catch(err => reject(err))
-  })
-}
-
-/**
- *
- * @param {tplink} Tplink
- * @return {Promise}
- */
-const getTokenFromFile = (tplink) => {
-  console.info(`Getting token from file...`)
-  return new Promise((resolve, reject) => {
-    fs.readFile(tplink.tokenLocation, (err, token) => {
-      if (err) return reject(err)
-      console.info(`Token received from file: ${token}`)
-      return resolve(token)
-    })
+      .catch(err => {
+        console.log('Error?')
+        console.log(err)
+        reject(err)
+      })
   })
 }
 
@@ -167,23 +134,19 @@ const getTokenFromFile = (tplink) => {
  */
 const getValidToken = (tplink) => {
   return new Promise((resolve, reject) => {
-    let token = ''
-    getTokenFromFile(tplink)
-      .then(tok => {
-        token = tok.toString()
-        return isValidToken(tplink, token)
-      })
-      .then(() => resolve(token))
-      .catch(() => {
-        console.info('Invalid token. Generating a new one...')
-        return generateToken(tplink)
-          .then(token => {
-            console.info(`New token generated: ${token}`)
-            return saveToken(tplink, token)
-          })
-          .then(token => resolve(token))
-          .catch(err => reject(err))
-      })
+    if (tplink.token) {
+      isValidToken(tplink.token)
+        .then((token) => resolve(token))
+        .catch(() => {
+          return generateToken(tplink)
+            .then(token => resolve(token))
+            .catch(err => reject(err))
+        })
+    } else {
+      return generateToken(tplink)
+        .then(token => resolve(token))
+        .catch(err => reject(err))
+    }
   })
 }
 
@@ -196,6 +159,7 @@ const getValidToken = (tplink) => {
 const getDeviceId = (tplink, miner, token) => {
   return new Promise((resolve, reject) => {
     const endpoint = url.format({
+      protocol,
       host: tplink.url,
       query: { token }
     })
@@ -231,6 +195,7 @@ const switchMiner = (tplink, miner, token, deviceId, state) => {
 
   return new Promise((resolve, reject) => {
     const endpoint = url.format({
+      protocol,
       host: tplink.url,
       query: { token }
     })
@@ -244,6 +209,10 @@ const switchMiner = (tplink, miner, token, deviceId, state) => {
     }
 
     body = JSON.stringify(body, {}, 2)
+
+    // TEST
+    console.info(`FAKE SWITCHED ON ${miner.tplinkName}`)
+    return resolve()
 
     request.post(endpoint, {
       body: body
