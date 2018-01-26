@@ -24,9 +24,11 @@ class Ethos {
         let rigs = JSON.parse(result).rigs
 
         for (let rig in rigs) {
+          let miner = minerCollection.getByEthosName(rig)
           let isAlive = rigs[rig].condition === 'mining' || rigs[rig].condition === 'just_booted'
-          minerCollection.getByEthosName(rig).isAlive = isAlive
-          console.info(`Miner ${rig} is alive: ${isAlive}`)
+          miner.isAlive = isAlive
+          let status = miner.isAlive ? 'UP' : 'DOWN'
+          console.info(`Miner ${miner.tplinkName} [${rig}] is ${status}`)
         }
 
         return resolve(minerCollection)

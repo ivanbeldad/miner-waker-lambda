@@ -20,7 +20,6 @@ exports.handler = (event, context, callback) => {
       const promises = []
 
       minerCollection.getStoppedMiners().forEach(miner => {
-        console.info(`${miner.tplinkName} is stopped`)
         promises.push(tplink.reset(miner))
       })
 

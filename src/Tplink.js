@@ -116,7 +116,10 @@ const generateToken = (tplink) => {
     })
       .then(value => {
         value = JSON.parse(value)
-        console.info(`New token generated: ${value.result.token}`)
+        let start = value.result.token.length - 6
+        let end = value.result.token.length
+        let fakeToken = `xxxxxxxx-xxxxxxxxxxxxxxxx${value.result.token.slice(start, end)}`
+        console.info(`New token generated: ${fakeToken}`)
         return resolve(value.result.token)
       })
       .catch(err => {
@@ -217,7 +220,7 @@ const switchMiner = (tplink, miner, token, deviceId, state) => {
         result = JSON.parse(result)
         if (result.error_code !== 0) return reject(result)
         let switchMode = state === 1 ? 'on' : 'off'
-        console.info(`Switched ${switchMode} ${miner.ethosName} [${miner.tplinkName}]`)
+        console.info(`Switched ${switchMode} ${miner.tplinkName} [${miner.ethosName}]`)
         resolve()
       })
       .catch(err => reject(err))
