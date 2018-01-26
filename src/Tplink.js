@@ -210,10 +210,6 @@ const switchMiner = (tplink, miner, token, deviceId, state) => {
 
     body = JSON.stringify(body, {}, 2)
 
-    // TEST
-    console.info(`FAKE SWITCHED ON ${miner.tplinkName}`)
-    return resolve()
-
     request.post(endpoint, {
       body: body
     })
