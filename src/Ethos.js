@@ -2,6 +2,12 @@ const request = require('request-promise-native')
 const Miner = require('./Miner')
 const MinerCollection = require('./MinerCollection')
 
+const conditions = {
+  good: [
+    'mining', 'just_booted', 'throttle'
+  ]
+}
+
 class Ethos {
 
   /**
@@ -25,7 +31,7 @@ class Ethos {
 
         for (let rig in rigs) {
           let miner = minerCollection.getByEthosName(rig)
-          let isAlive = rigs[rig].condition === 'mining' || rigs[rig].condition === 'just_booted'
+          let isAlive = conditions.good.indexOf(rigs[rig].condition) !== -1
           miner.isAlive = isAlive
           let status = miner.isAlive ? 'UP' : 'DOWN'
           console.info(`Miner ${miner.tplinkName} [${rig}] is ${status}`)
