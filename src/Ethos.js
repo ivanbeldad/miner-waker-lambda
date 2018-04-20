@@ -4,7 +4,7 @@ const MinerCollection = require('./MinerCollection')
 
 const conditions = {
   good: [
-    'mining', 'just_booted', 'throttle', 'stuck_miners'
+    'mining', 'just_booted', 'throttle'
   ]
 }
 
