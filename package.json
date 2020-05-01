@@ -7,7 +7,9 @@
     "start": "lambda-local -l src/main.js -h handler -e src/event-data.js -t 10",
     "test": "jest",
     "build": "gulp build",
-    "deploy": "npm run build && aws lambda update-function-code --zip-file fileb://dist/miner-waker-lambda.zip --function-name"
+    "deploy": "npm run build && aws lambda update-function-code --zip-file fileb://dist/miner-waker-lambda.zip --function-name",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -28,7 +30,8 @@
   "dependencies": {
     "js-yaml": "^3.10.0",
     "request": "^2.83.0",
-    "request-promise-native": "^1.0.5"
+    "request-promise-native": "^1.0.5",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "gulp": "^4.0.0",
@@ -37,5 +40,6 @@
     "gulp-install": "^1.1.0",
     "gulp-zip": "^4.1.0",
     "lambda-local": "^1.4.5"
-  }
+  },
+  "snyk": true
 }
