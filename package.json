@@ -27,7 +27,7 @@
   "homepage": "https://github.com/ivandelabeldad/miner-waker-lambda#readme",
   "dependencies": {
     "js-yaml": "^3.10.0",
-    "request": "^2.83.0",
+    "request": "^2.87.0",
     "request-promise-native": "^1.0.5"
   },
   "devDependencies": {
